@@ -29,11 +29,10 @@ function updateAverageRainfall() {
     document.getElementById('info').textContent = 'Average Rainfall: ' + averageRainfall + ' mm';
 }
 
-map.on('load', () => {
-    // Fetch GeoJSON data
-    fetch('https://raw.githubusercontent.com/muimran/rain/main/data/myData.geojson')
-        .then(response => response.json())
-        .then(data => {
+fetch('myData.geojson')
+    .then(response => response.json())
+    .then(data => {
+
             geojsonData = data;
 
             // Add a geojson point source for the rainfall data
