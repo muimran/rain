@@ -1,102 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Create a Rainfall Heatmap Layer</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
     <link href="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.css" rel="stylesheet">
     <script src="https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js"></script>
-    <title>All Rain Gauges</title>
-    <link rel="stylesheet" href="style.css" />
-    <script src="script.js" defer></script>
-  </head>
+    <style>
+        body { margin: 0; padding: 0; }
+        #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+        #info { 
+            position: absolute; 
+            top: 10px; 
+            left: 150px; 
+            padding: 5px; 
+            background: black;
+            font-family: Helvetica, sans-serif, sans-serif; /* Set the font here */
+            font-size: 34px; /* Set font size here */
+            color: rgb(255, 255, 255); /* Set font color here */
+        }
+    </style>
+</head>
+<body>
 
-  <body>
-    <div id="map"></div>
+<div id="map"></div>
+<div id="info"></div>
 
-    <!-- <script>
-      mapboxgl.accessToken = 'pk.eyJ1IjoiZG93ZWxsYWYiLCJhIjoiY2x0cjJjc2VqMGVtZzJrbnYwZjcxczdkcCJ9.ljRbHHEIuM4J40yUamM8zg';
-      const map = new mapboxgl.Map({
-          container: 'map', // container ID
-          style: 'mapbox://styles/dowellaf/cltr2h0h0007y01p7akad96el', // style URL
-          center: [0, 0], // starting position
-          zoom: 1 // starting zoom
-      });
+<!-- Link to the external JavaScript file -->
+<script src="script.js"></script>
 
-    // Sample heatmap data
-    const heatmapData = [
-      [51.515065947130914, -0.17361534557798688],
-      // Add more data points as needed
-    ];
-
-    // Initialize Leaflet Heatmap
-    var heat = L.heatLayer(heatmapData).addTo(map);
-  </script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.heat/0.2.0/leaflet-heat.js"></script> -->
-
-  <script>
-      mapboxgl.accessToken = 'pk.eyJ1IjoiZG93ZWxsYWYiLCJhIjoiY2x0cjJjc2VqMGVtZzJrbnYwZjcxczdkcCJ9.ljRbHHEIuM4J40yUamM8zg';
-      const map = new mapboxgl.Map({
-          container: 'map', // container ID
-          style: 'mapbox://styles/dowellaf/cltr2h0h0007y01p7akad96el', // style URL
-          center: [0, 0], // starting position
-          zoom: 1 // starting zoom
-      });
-
-      // Sample heatmap data
-      const heatmapData = [
-        [51.809656,	-3.2167269],
-        [51.755288,	-3.1299887],
-        [51.635761,	-3.5252862],
-        [51.504862,	-3.5398578],
-        [51.581417,	-3.6196189],
-        [51.589311,	-3.1640454],
-        [51.515065947130914, -0.17361534557798688],
-        // Add more data points as needed
-      ];
-
-      // Add heatmap layer
-      map.on('load', function () {
-        map.addLayer({
-          'id': 'heatmap-layer',
-          'type': 'heatmap',
-          'source': {
-            'type': 'geojson',
-            'data': {
-              'type': 'FeatureCollection',
-              'features': heatmapData.map(point => ({
-                'type': 'Feature',
-                'geometry': {
-                  'type': 'Point',
-                  'coordinates': [point[1], point[0]] // Note: Mapbox GL JS uses [lng, lat] order
-                },
-                'properties': {}
-              }))
-            }
-          },
-          'paint': {
-            'heatmap-weight': {
-              'type': 'constant',
-              'property': 1
-            },
-            'heatmap-intensity': 0.5,
-            'heatmap-color': [
-              'interpolate',
-              ['linear'],
-              ['heatmap-density'],
-              0, 'rgba(0, 0, 255, 0)',
-              0.2, 'royalblue',
-              0.4, 'cyan',
-              0.6, 'lime',
-              0.8, 'yellow',
-              1, 'red'
-            ],
-            'heatmap-radius': 20,
-            'heatmap-opacity': 0.7
-          }
-        });
-      });
-  </script>
-  </body>
+</body>
 </html>
