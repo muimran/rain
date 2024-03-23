@@ -31,7 +31,7 @@ function updateAverageRainfall() {
 
 map.on('load', () => {
     // Fetch GeoJSON data
-    fetch('https://raw.githubusercontent.com/annadowell/soundbath_live_anna/imran/data/myData.geojson')
+    fetch('https://raw.githubusercontent.com/muimran/rain/main/data/myData.geojson')
         .then(response => response.json())
         .then(data => {
             geojsonData = data;
