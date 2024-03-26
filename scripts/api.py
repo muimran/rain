@@ -165,7 +165,7 @@ csv_filename = "rainfall_data.csv"
 
 # First, open the file in read mode to find the first empty row
 empty_row_index = None
-with open(csv_filename, mode='r', newline='', encoding='utf-8') as file:
+with open(csv_filename, mode='w', newline='', encoding='utf-8') as file:
     reader = csv.reader(file)
     for index, row in enumerate(reader):
         if is_row_empty(row):
