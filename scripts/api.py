@@ -160,12 +160,12 @@ total_stations = stations_eng + stations_sco + stations_wales
 def is_row_empty(row):
     return not any(row)
 
-# Write to an existing CSV file, appending to the next empty row
+# Filepath for the CSV file
 csv_filename = "rainfall_data.csv"
 
 # First, open the file in read mode to find the first empty row
 empty_row_index = None
-with open(csv_filename, mode='w', newline='', encoding='utf-8') as file:
+with open(csv_filename, mode='r', newline='', encoding='utf-8') as file:
     reader = csv.reader(file)
     for index, row in enumerate(reader):
         if is_row_empty(row):
@@ -175,7 +175,7 @@ with open(csv_filename, mode='w', newline='', encoding='utf-8') as file:
 # Then, open the file in append mode to write the new data
 with open(csv_filename, mode='a', newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
-    
+
     # If no empty row was found, append the new data
     if empty_row_index is None:
         writer.writerow([datetime.now().strftime("%Y-%m-%d %H:%M:%S"), avg_rainfall,
