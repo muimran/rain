@@ -25,6 +25,15 @@ def fetch_station_data_eng():
                 }
     return eng_station_data
 
+# Function to fetch rainfall measurements for England
+def get_rainfall_data_eng():
+    eng_url = "http://environment.data.gov.uk/flood-monitoring/id/measures?parameter=rainfall"
+    eng_response = requests.get(eng_url)
+    if eng_response.status_code == 200:
+        eng_data = eng_response.json()
+        return eng_data['items']
+    return []
+
 # Function to fetch station data with coordinates for Scotland
 def get_scotland_rainfall_data(base_url):
     # Fetch the list of stations
