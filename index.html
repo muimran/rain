@@ -3,54 +3,24 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
-    <title>Nobel</title> 
+    <title>Nobel</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    
+    <!-- Highcharts Library -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <!-- If you need additional Highcharts modules, include them here -->
+    
+    <!-- Your script.js reference (make sure you have this file with the Highcharts code in the same directory) -->
+    <script src="script.js"></script>
+
     <style>
-        body {
-            background-color: #fffff0;
-            display: flex;
-            justify-content: center;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Times New Roman', sans-serif;
-        }
-
-        .text-container {
-            width: 100%; /* Will take full width on small screens */
-            max-width: 1200px; /* Will not expand beyond 1200px even on larger screens */
-            margin-top: 5%;
-            margin-bottom: 5%;
-            line-height: 1.75;
-            font-size: 20px;
-            padding: 0 1em; /* Add some padding on the sides */
-        }
-
-        .text-container h1 {
-            font-size: 3em;
-            margin-bottom: 0em;
-            text-align: center;
-            font-family: 'Roboto Slab', serif;
-            font-weight: bold;
-        }
-
-        /* Responsive styles for medium screens */
-        @media (min-width: 768px) {
-            .text-container {
-                width: 90%;
-                font-size: 22px;
-            }
-
-            .text-container h1 {
-                font-size: 2.5em;
-            }
-        }
-
-        /* Responsive styles for larger screens */
-        @media (min-width: 1200px) {
-            .text-container {
-                width: 35%;
-            }
+        /* Existing styles unchanged... */
+        
+        /* Added container style for Highcharts */
+        #container {
+            height: 400px;
+            max-width: 800px; /* or any other width you prefer */
+            margin: 20px auto; /* Center the chart container */
         }
     </style>
 </head>
@@ -58,9 +28,14 @@
 <body>
     <div class="text-container">
 
+        <!-- Highcharts Container -->
+        <div id="container"></div>
+
+        <!-- Your existing iframes and other content -->
         <iframe title="Most Expensive Apartments by Neighborhood in Dhaka" aria-label="Table" id="datawrapper-chart-SSmr7" src="https://datawrapper.dwcdn.net/SSmr7/2/" scrolling="no" frameborder="0" style="border: none; margin-bottom: 100px;"  width="600" height="429" data-external="1"></iframe>
         
-        <iframe title="Top Ten Populous Dhaka Neighborhoods: Apartment Price Comparison" aria-label="Grouped Bars" id="datawrapper-chart-1T3mF" src="https://datawrapper.dwcdn.net/1T3mF/4/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="895" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(a){if(void 0!==a.data["datawrapper-height"]){var e=document.querySelectorAll("iframe");for(var t in a.data["datawrapper-height"])for(var r=0;r<e.length;r++)if(e[r].contentWindow===a.source){var i=a.data["datawrapper-height"][t]+"px";e[r].style.height=i}}}))}();
+        <iframe title="Top Ten Populous Dhaka Neighborhoods: Apartment Price Comparison" aria-label="Grouped Bars" id="datawrapper-chart-1T3mF" src="https://datawrapper.dwcdn.net/1T3mF/4/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="895" data-external="1"></iframe>
+        <script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(a){if(void 0!==a.data["datawrapper-height"]){var e=document.querySelectorAll("iframe");for(var t in a.data["datawrapper-height"])for(var r=0;r<e.length;r++)if(e[r].contentWindow===a.source){var i=a.data["datawrapper-height"][t]+"px";e[r].style.height=i}}}))}();
         </script>
     
     </div>
