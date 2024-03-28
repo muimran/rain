@@ -53,6 +53,9 @@ const chart = Highcharts.chart('container', {
             cropThreshold: 10
         }
     },
+    data: {
+        csv: document.getElementById('csv').textContent
+    },
     yAxis: {
         title: {
             text: null
@@ -79,20 +82,71 @@ const chart = Highcharts.chart('container', {
     }
 });
 
-// Fetch the CSV file from GitHub repository
-fetch('rainfall_data.csv')
-    .then(response => response.text())
-    .then(data => {
-        // Load CSV data into chart
-        chart.update({
-            data: {
-                csv: data
-            }
-        });
-    })
-    .catch(error => {
-        console.error('Error fetching CSV file:', error);
-    });
 
 // Handle the keyboard navigation
-// (Your existing keyboard navigation code remains unchanged)
+document.getElementById('controls').onkeydown = function (e) {
+    let lastPlayed;
+
+    const speaker = new Highcharts.sonification.SonificationSpeaker({
+        volume: 0.4, rate: 2
+    });
+
+    // Announce values + series name after playing individual points. We
+    // just reuse the accessibility description for the point, for simplicity.
+    // We use a single SonificationSpeaker for the announcement, since it makes
+    // it easy to avoid multiple announcements overlapping.
+    function onSinglePointPlayed(e) {
+        const point = e.pointsPlayed && e.pointsPlayed[0];
+        if (point) {
+            speaker.sayAtTime(700, point.accessibility.valueDescription +
+                ' ' + point.series.name);
+        }
+    }
+
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+        chart.sonification.playAdjacent(
+            e.key === 'ArrowRight', onSinglePointPlayed);
+
+    } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+        const newSeries = chart.sonification
+            .playAdjacentSeries(e.key === 'ArrowUp', 'x', onSinglePointPlayed);
+        lastPlayed = chart.sonification.getLastPlayedPoint();
+        if (lastPlayed.x && newSeries) {
+            // Speak new series if not first point
+            chart.sonification.speak(newSeries.name);
+        }
+
+    } else if (e.key === ' ') {
+        chart.toggleSonify(false);
+
+    } else if (e.key === 'Home' || e.key === 'End') {
+        lastPlayed = chart.sonification.getLastPlayedPoint();
+        if (lastPlayed) {
+            lastPlayed.series.points[e.key === 'End' ?
+                lastPlayed.series.points.length - 1 : 0
+            ].sonify(onSinglePointPlayed);
+        }
+
+    } else {
+        return; // Don't prevent default on unknown keys
+    }
+    speaker.cancel();
+    e.preventDefault();
+};
+
+
+// Start sonification mode
+document.getElementById('sonify').onclick = function () {
+    // Show the help field and set keyboard focus to it
+    const controls = document.getElementById('controls');
+    controls.className = 'visible';
+
+    setTimeout(function () {
+        controls.focus();
+    }, 10);
+
+    // Notification sound to indicate something happened
+    chart.sonification.playNote('vibraphone', {
+        note: 'g6', volume: 0.2, noteDuration: 300
+    });
+};
