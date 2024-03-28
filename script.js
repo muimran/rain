@@ -1,84 +1,98 @@
-document.addEventListener('DOMContentLoaded', function () {
-    fetch('rainfall_data.csv')
-        .then(response => response.text())
-        .then(csv => {
-            Highcharts.chart('container', {
-                chart: {
-                    type: 'spline'
-                },
-                title: {
-                    text: 'Rainfall Data Over Time'
-                },
-                subtitle: {
-                    text: 'Average and Total Rainfall for England, Scotland, and Wales'
-                },
-                xAxis: {
-                    type: 'datetime',
-                    accessibility: {
-                        description: 'Time'
-                    },
-                    dateTimeLabelFormats: {
-                        month: '%e. %b',
-                        year: '%b'
-                    },
-                    title: {
-                        text: 'Date'
-                    }
-                },
-                yAxis: {
-                    title: {
-                        text: 'Rainfall (mm)'
-                    }
-                },
-                tooltip: {
-                    shared: true,
-                    crosshairs: true
-                },
-                plotOptions: {
-                    spline: {
-                        marker: {
-                            enabled: true
-                        },
-                        dataLabels: {
-                            enabled: true
-                        }
-                    }
-                },
-                data: {
-                    csv: csv,
-                    parsed: function (columns) {
-                        // Parse the datetime column to timestamps and convert numerical values
-                        columns.forEach(function (column, i) {
-                            if (i === 0) { // The first column is datetime
-                                for (let j = 1; j < column.length; j++) {
-                                    column[j] = Date.parse(column[j]);
-                                }
-                            } else { // Convert string numerical values to floats
-                                for (let j = 1; j < column.length; j++) {
-                                    column[j] = parseFloat(column[j]);
-                                }
-                            }
-                        });
-                    },
-                    complete: function (options) {
-                        // Filter the series by the specified column names
-                        options.series = options.series.filter(series => {
-                            return [
-                                'Average Rainfall',
-                                'Average England rainfall',
-                                'average Scotland rainfall',
-                                'average Wales rainfall',
-                                'Total Rainfall',
-                                'Total England rainfall',
-                                'total Scotland rainfall',
-                                'total Wales rainfall'
-                            ].includes(series.name);
-                        });
-                    }
-                }
-            });
-        })
-        .catch(error => {
-            console.error('Error loading the CSV data: ', error);
-        });
+const chart = Highcharts.chart('container', {
+    chart: {
+        type: 'spline'
+    },
+    title: {
+        text: null
+    },
+    sonification: {
+        duration: 27000,
+        afterSeriesWait: 1200,
+        defaultInstrumentOptions: {
+            instrument: 'basic2',
+            mapping: {
+                playDelay: 500
+            }
+        },
+        // Speak the series name at beginning of series
+        globalTracks: [{
+            type: 'speech',
+            mapping: {
+                text: '{point.series.name}',
+                volume: 0.4,
+                rate: 2
+            },
+            // Active on first point in series only
+            activeWhen: function (e) {
+                return e.point && !e.point.index;
+            }
+        }]
+    },
+    accessibility: {
+        screenReaderSection: {
+            axisRangeDateFormat: '%B %Y',
+            beforeChartFormat: ''
+        },
+        point: {
+            dateFormat: '%b %e, %Y',
+            valueDescriptionFormat: '{value}{separator}{xDescription}'
+        },
+        series: {
+            pointDescriptionEnabledThreshold: false
+        }
+    },
+    colors: ['#3d3f51', '#42858C', '#AD343E'],
+    plotOptions: {
+        series: {
+            label: {
+                connectorAllowed: true
+            },
+            marker: {
+                enabled: false
+            },
+            cropThreshold: 10
+        }
+    },
+    yAxis: {
+        title: {
+            text: null
+        },
+        accessibility: {
+            description: 'Percent unemployment of labor force'
+        },
+        labels: {
+            format: '{text}%'
+        }
+    },
+    xAxis: {
+        accessibility: {
+            description: 'Time'
+        },
+        type: 'datetime'
+    },
+    tooltip: {
+        valueSuffix: '%',
+        stickOnContact: true
+    },
+    legend: {
+        enabled: false
+    }
 });
+
+// Fetch the CSV file from GitHub repository
+fetch('https://raw.githubusercontent.com/your_username/your_repository/main/rainfall_data.csv')
+    .then(response => response.text())
+    .then(data => {
+        // Load CSV data into chart
+        chart.update({
+            data: {
+                csv: data
+            }
+        });
+    })
+    .catch(error => {
+        console.error('Error fetching CSV file:', error);
+    });
+
+// Handle the keyboard navigation
+// (Your existing keyboard navigation code remains unchanged)
