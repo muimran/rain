@@ -80,7 +80,7 @@ const chart = Highcharts.chart('container', {
 });
 
 // Fetch the CSV file from GitHub repository
-fetch('https://raw.githubusercontent.com/muimran/rain/main/rainfall_data.csv')
+fetch('rainfall_data.csv')
     .then(response => response.text())
     .then(data => {
         // Load CSV data into chart
