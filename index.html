@@ -13,7 +13,7 @@
     <script>
         // Function to fetch CSV file and create chart
         async function createChart() {
-            const response = await fetch('rainfall_data.csv');
+            const response = await fetch('https://raw.githubusercontent.com/muimran/rain/main/scripts/rainfall_data.csv');
             const data = await response.text();
 
             // Parse CSV data
